@@ -1,0 +1,1 @@
+console.log('process: ', process.cwd()) // 工作目录 命令执行的目录
