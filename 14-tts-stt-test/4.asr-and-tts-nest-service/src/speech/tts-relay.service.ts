@@ -27,11 +27,11 @@ export class TtsRelayService implements OnModuleDestroy {
   private readonly voiceType: number;
 
   constructor(@Inject(ConfigService) configService: ConfigService) {
-    this.secretId = configService.get<string>('SECRET_ID') ?? '';
-    this.secretKey = configService.get<string>('SECRET_KEY') ?? '';
-    this.appId = Number(configService.get<string>('APP_ID') ?? 0);
+    this.secretId = configService.get<string>('secret_id') ?? '';
+    this.secretKey = configService.get<string>('secret_key') ?? '';
+    this.appId = Number(configService.get<string>('app_id') ?? 0);
     this.voiceType = Number(
-      configService.get<string>('TTS_VOICE_TYPE') ?? 101001,
+      configService.get<string>('tts_voice_type') ?? 101001,
     );
   }
 

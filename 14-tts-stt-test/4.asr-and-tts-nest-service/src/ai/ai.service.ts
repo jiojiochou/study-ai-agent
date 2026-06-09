@@ -6,8 +6,8 @@ import { StringOutputParser } from '@langchain/core/output_parsers';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import {
   AI_TTS_STREAM_EVENT,
-  AiTtsStreamEvent,
-} from 'src/common/stream-events';
+  type AiTtsStreamEvent,
+} from '../common/stream-events';
 
 @Injectable()
 export class AiService {
@@ -25,17 +25,36 @@ export class AiService {
     query: string,
     ttsSessionId?: string,
   ): AsyncGenerator<string> {
-    const stream = await this.chain.stream({ query });
-    for await (const chunk of stream) {
-      if (ttsSessionId) {
-        const event: AiTtsStreamEvent = {
-          type: 'chunk',
-          sessionId: ttsSessionId,
-          chunk,
-        };
-        this.eventEmitter.emit(AI_TTS_STREAM_EVENT, event);
+    try {
+      const stream = await this.chain.stream({ query });
+      for await (const chunk of stream) {
+        if (ttsSessionId) {
+          const event: AiTtsStreamEvent = {
+            type: 'chunk',
+            sessionId: ttsSessionId,
+            chunk,
+          };
+          this.eventEmitter.emit(AI_TTS_STREAM_EVENT, event);
+        }
+        yield chunk;
       }
-      yield chunk;
+      if (ttsSessionId) {
+        const endEvent: AiTtsStreamEvent = {
+          type: 'end',
+          sessionId: ttsSessionId,
+        };
+        this.eventEmitter.emit(AI_TTS_STREAM_EVENT, endEvent);
+      }
+    } catch (error) {
+      if (ttsSessionId) {
+        const errorEvent: AiTtsStreamEvent = {
+          type: 'error',
+          sessionId: ttsSessionId,
+          error: error instanceof Error ? error.message : String(error),
+        };
+        this.eventEmitter.emit(AI_TTS_STREAM_EVENT, errorEvent);
+      }
+      throw error;
     }
   }
 }
