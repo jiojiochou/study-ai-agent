@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+
+        let mediaRecorder = null
+        let chunks = []
+
+        navigator.mediaDevices.getUserMedia({
+            audio: true,
+        }).then((stream) => {
+            mediaRecorder = new MediaRecorder(stream, { mimeType: 'audio/ogg; codecs=opus' })
+        })
+
+        mediaRecorder.ondataavailable = (event) => {
+            console.log(event)
+            chunks.push(event.data)
+        }
+
+
+
+    </script>
+</body>
+
+</html>
