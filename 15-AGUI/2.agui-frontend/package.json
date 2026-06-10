@@ -11,9 +11,13 @@
   },
   "dependencies": {
     "@ai-sdk/react": "^3.0.201",
+    "@streamdown/code": "^1.1.1",
+    "@streamdown/mermaid": "^1.0.2",
     "ai": "^6.0.199",
     "react": "^19.2.6",
-    "react-dom": "^19.2.6"
+    "react-dom": "^19.2.6",
+    "streamdown": "^2.5.0",
+    "tailwindcss": "^4.3.0"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
