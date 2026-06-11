@@ -24,6 +24,7 @@ const model = new ChatOpenAI({
   },
 });
 
+// agnet-loop
 const agent = createAgent({
   model,
   tools: [getProductStock],
