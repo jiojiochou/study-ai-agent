@@ -1,6 +1,5 @@
 import "dotenv/config";
 import { ChatOpenAI } from "@langchain/openai";
-import { JsonOutputToolsParser } from "@langchain/core/output_parsers/openai_tools";
 import { z } from "zod";
 
 const model = new ChatOpenAI({
@@ -32,32 +31,22 @@ const modelWithTool = model.bindTools([
   },
 ]);
 
-// 1. 绑定工具并挂载解析器
-const parser = new JsonOutputToolsParser();
-const chain = modelWithTool.pipe(parser);
+console.log("🌊 流式 Tool Calls 演示 - 直接打印原始 tool_calls_chunk\n");
 
 try {
-  // 2. 开启流
-  const stream = await chain.stream("详细介绍牛顿的生平和成就");
+  // 开启流式输出
+  const stream = await modelWithTool.stream("详细介绍牛顿的生平和成就");
 
-  let lastContent = ""; // 记录已打印的完整内容
-  let finalResult = null; // 存储最终的完整结果
-  console.log("📡 实时输出流式内容:\n");
+  console.log("📡 实时输出流式 tool_calls_chunk:\n");
+
+  let chunkIndex = 0;
 
   for await (const chunk of stream) {
-    if (chunk.length > 0) {
-      const toolCall = chunk[0];
-
-      // 获取当前工具调用的完整参数内容
-      // const currentContent = JSON.stringify(toolCall.args || {}, null, 2);
-
-      // if (currentContent.length > lastContent.length) {
-      //     const newText = currentContent.slice(lastContent.length);
-      //     process.stdout.write(newText); // 实时输出到控制台
-      //     lastContent = currentContent; // 更新已读进度
-      // }
-
-      console.log(toolCall.args);
+    chunkIndex++;
+    // 直接打印每个 chunk 的 tool_calls 信息
+    if (chunk.tool_call_chunks && chunk.tool_call_chunks.length > 0) {
+      console.log("tool_calls", chunk.tool_calls);
+      process.stdout.write(`${chunk.tool_call_chunks[0].args}\n\n\n`);
     }
   }
 
