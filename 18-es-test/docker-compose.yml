@@ -1,7 +1,8 @@
 services:
   # Elasticsearch 8.17.0 + IK 中文分词（内置到镜像）
   es:
-    image: elasticsearch:8.17.0
+    # image: elasticsearch:8.17.0
+    build: ./elasticsearch
     container_name: es-dev
     ports:
       - "9200:9200" # ES 访问端口
