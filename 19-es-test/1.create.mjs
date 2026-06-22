@@ -9,10 +9,11 @@ const INDEX_NAME = "travel_journal";
 async function createIndex() {
   const exists = await client.indices.exists({ index: INDEX_NAME });
   if (exists) {
-    console.log(`ℹ️ 索引已存在: ${INDEX_NAME}`);
+    console.log(`ℹ️ 索引已存在: ${INDEX_NAME}`);
     return;
   }
 
+  // 创建索引
   await client.indices.create({
     index: INDEX_NAME,
     mappings: {
@@ -36,11 +37,11 @@ async function createIndex() {
     },
   });
 
-  console.log(`✅ 索引创建成功: ${INDEX_NAME}`);
+  console.log(`✅ 索引创建成功: ${INDEX_NAME}`);
 }
 
 async function seedData() {
-  const now = newDate().toISOString();
+  const now = new Date().toISOString();
   const docs = [
     {
       note_title: "杭州西湖半日游",
@@ -76,7 +77,7 @@ async function seedData() {
     doc,
   ]);
   await client.bulk({ refresh: true, operations });
-  console.log(`✅ 初始化数据完成，共 ${docs.length} 条`);
+  console.log(`✅ 初始化数据完成，共 ${docs.length} 条`);
 }
 
 async function run() {
