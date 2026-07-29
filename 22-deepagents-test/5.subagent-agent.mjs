@@ -97,9 +97,9 @@ const makeSimilarProblem = tool(
 );
 
 const model = new ChatOpenAI({
-  model: process.env.MODEL_NAME,
-  apiKey: process.env.OPENAI_API_KEY,
-  configuration: { baseURL: process.env.OPENAI_BASE_URL },
+  model: process.env.model_name,
+  apiKey: process.env.model_key,
+  configuration: { baseURL: process.env.model_url },
   temperature: 0,
   streaming: true,
 });

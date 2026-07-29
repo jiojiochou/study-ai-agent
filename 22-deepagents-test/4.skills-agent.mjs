@@ -9,7 +9,7 @@ import {
 } from "deepagents";
 
 const skills = "/.agents/skills/";
-const output = "src/deepagents/output/deepagents-skills-flow.excalidraw";
+const output = "output/deepagents-skills-flow.excalidraw";
 
 if (!existsSync(".agents/skills/excalidraw-diagram-generator/SKILL.md")) {
   throw new Error(
@@ -17,7 +17,7 @@ if (!existsSync(".agents/skills/excalidraw-diagram-generator/SKILL.md")) {
   );
 }
 
-mkdirSync("src/deepagents/output", { recursive: true });
+mkdirSync("output", { recursive: true });
 
 const model = new ChatOpenAI({
   model: process.env.model_name,
