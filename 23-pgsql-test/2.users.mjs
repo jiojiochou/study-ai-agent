@@ -1,4 +1,4 @@
-import { query } from "./db.mjs";
+import { query } from "./1.db.mjs";
 
 async function createUser(name) {
   const { rows } = await query(
