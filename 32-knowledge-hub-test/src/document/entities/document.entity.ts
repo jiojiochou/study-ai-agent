@@ -1,6 +1,7 @@
 import {
   Column,
   CreateDateColumn,
+  Entity,
   PrimaryColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -16,6 +17,8 @@ export enum DocumentStatus {
   Archived = 2,
 }
 
+/** 文档元数据（PostgreSQL kh_document） */
+@Entity('kh_document')
 export class DocumentEntity {
   @PrimaryColumn({ type: 'bigint', transformer: bigintTransformer })
   id: string = '';

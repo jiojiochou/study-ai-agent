@@ -55,7 +55,7 @@ export class CreateDocumentDto {
   @IsBoolean()
   isPublic?: boolean;
 
-  /** 创建人时间 */
+  /** 创建时间 */
   @IsOptional()
   @IsString()
   createBy?: string;
